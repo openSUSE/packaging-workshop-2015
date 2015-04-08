@@ -2,7 +2,7 @@
 
 Preparation for the packaging workshop 2015.
 
-The openSUSE Conference[1] in The Hague from May 01 - 04, 2015 will also have some nice talks and workshops around packaging. Currently we plan to organize a whole day with presentations and workshops around packaging from beginner sessions to discussions with experts around everything you can imagine (especially after a few beers ;-)
+The [openSUSE Conference](https://events.opensuse.org/conference/oSC15) in The Hague from May 01 - 04, 2015 will also have some nice talks and workshops around packaging. Currently we plan to organize a whole day with presentations and workshops around packaging from beginner sessions to discussions with experts around everything you can imagine (especially after a few beers ;-)
 
 If you want to get your packaging topics covered during that workshops, please open issues here, so they don't get lost.
 
