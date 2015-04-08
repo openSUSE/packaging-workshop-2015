@@ -58,7 +58,7 @@ Current list of topics in a slightly unordered list:
 * Communication is important: where to find the right people to help you; where to discuss proposals and how to interact with reviewers
 * Reject is not "they are mean to me"
 * Most common challenges -- packaging policies  => get feedback from dimstar and friends  
-
+* Follow the style of the package, Even if you dont 100% agree. (as long as it is within the policy)
 * Patch policy
 * What does it take to be a responsible packager
 
