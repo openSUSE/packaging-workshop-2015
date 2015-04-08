@@ -46,13 +46,13 @@ Current list of topics in a slightly unordered list:
 * security in packaging (minimal permissions, different users and groups, apparmor/selinux)
 * security considerations for the packaged files too, such as suid, etc
 * how to get a dbus services/suid/default start granted?
-** perl
-** python
-** ruby
-*' Probably not cover Java, nodejs
+  * perl
+  * python
+  * ruby
+  * Probably not cover Java, nodejs
 * package updates done correctly: differences between install and update of an installed package (%pre %post %*un %*in , order,  etc)
-** %triggers? epoch?
-** http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
+  * %triggers? epoch?
+  * http://fedoraproject.org/wiki/Packaging:ScriptletSnippets#Syntax
 
 ## 6. Collaboration and communication
 * Communication is important: where to find the right people to help you; where to discuss proposals and how to interact with reviewers
