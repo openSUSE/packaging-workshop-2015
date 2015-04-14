@@ -1,0 +1,106 @@
+        <section>
+          <h1>Packager's worklfow</h1>
+          <p>How the hell can I get my package to everybody?</p>
+          <p>This section displays some things done over web interface and some using CLI commands. Most of the operations are possible to do both ways</p>
+        </section>
+        <section>
+          <h2>Not have account yet?</h2>
+          <p>Lets create it!</p>
+        </section>
+        <section>
+          <img src="signup-obs.png" alt="OBS signup" />
+        </section>
+        <section>
+          <img src="signup-create.png" alt="Create account" />
+        </section>
+        <section>
+          <h2>What did I get with the account?</h2>
+          <ul>
+            <li>Each user has his own home project <b><code>home:&lt;username&gt;</code></b></li>
+            <li>Access to branching/maintenance requests</li>
+            <li>cli interface and possiblity to build things localy</li>
+            <li>account for bugzilla.opensuse.org</li>
+            <li>and many many things more...</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Home project overview</h2>
+          <img src="home-project.png" alt="Home project" />
+        </section>
+        <section>
+          <h2>Repositories</h2>
+          <img src="home-repositories.png" alt="Home project repositories" />
+        </section>
+        <section>
+          <h2>Lets create some new package!</h2>
+          <ul>
+            <li><kbd>cd &lt;somewhere-on-the-disk-where-i-want-to-store-obs-content&gt;</kbd></li>
+            <li><kbd>osc checkout home:&lt;username&gt;</kbd> checks out the home project we have on OBS</li>
+            <li><kbd>cd home:&lt;username&gt;</kbd> enter the working-directory of the project</li>
+          </ul>
+        </section>
+        <section>
+          <ul>
+            <li><kbd>mkdir mypackage</kbd> creates the folder, DUH.</li>
+            <li><kbd>cp various-things mypackage</kbd> copies all the things you want to the mypackage directory</li>
+            <li><kbd>osc add mypackage</kbd> adds the content to versioning system</li>
+            <li><kbd>osc commit</kbd> sends the files to the OBS</li>
+            <li><kbd>osc results</kbd> shows up the state of the package (building/failed/etc...)</li>
+          </ul>
+        </section>
+        <section>
+          <h2>But I wanted to build the package here!</h2>
+          <p>Fear not! We can do that too!</p>
+          <ul>
+            <li><kbd>cd mypackage</kbd></li>
+            <li><kbd>osc build</kbd> starts building the package against default target, mostly openSUSE-Factory</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Lovely, I have package. What can I do with it now?</h2>
+          <p>Overall the goal of our effort should be to get the package consumed by as many people as possible.</p>
+          <p>So lets explain this on the workflow diagram <a href="https://progress.opensuse.org/workflow/factory-proposal.html">https://progress.opensuse.org/workflow/factory-proposal.html</a>.</p>
+        </section>
+        <section>
+          <p>All this translates for developer to "find a suitable devel project" and then "submit the pacakge to Factory".</p>
+<pre><code data-trim contenteditable>
+    osc sr home:&lt;username&gt; mypackage mydevelproject -m "My new cool package"
+    # wait wait wait
+    osc sr mydevelproject mypackage openSUSE:Factory -m "My new cool package"
+</code></pre>
+        </section>
+        <section>
+          <h2>Now how about doing an update for existing package for Tumbleweed?</h2>
+        </section>
+        <section>
+<pre><code data-trim contenteditable>
+$ osc develproject openSUSE:Factory rsnapshot
+Archiving
+$ osc branch Archiving rsnapshot
+A working copy of the branched package can be checked out with:
+osc co home:scarabeus_iv:branches:Archiving/rsnapshot
+$ osc co home:scarabeus_iv:branches:Archiving/rsnapshot
+$ cd home:scarabeus_iv:branches:Archiving/rsnapshot
+$ vi rsnapshot.spec # hackyhacky
+$ osc vc
+$ osc build
+$ osc ci
+$ osc sr -m "Finally got around to fix bnc#2345 so enjoy"
+</code></pre>
+        </section>
+        <section>
+            <h2>Patches and ChangeLog</h2>
+<pre><code data-trim contenteditable>
+ - Version bump to 4.4.4
+   * Feature 1
+   * Fix 12
+     + long waited bugfix for feature XYZ
+ - fix segfault on load incorrect document (bnc#123456)
+   * foo-1.2.4-buffer-owerflow.patch
+ - remove obsolete patch:
+   * foo-1.2.3-buildfix.patch
+</code></pre>
+        </section>
+        <section>
+          <h2>Maintenance updates are not hard either</h2>
+        </section>
