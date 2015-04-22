@@ -1,3 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Packaging for Champions</title>
+
+    <meta name="description" content="Framework for Packaging Workshop @ oSC 2015">
+    <meta name="author" content="Craig Gardner">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="reveal/css/reveal.css">
+    <link rel="stylesheet" href="reveal/css/theme/solarized.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
         <section>
           <h1>Packager's worklfow</h1>
           <p>How the hell can I get my package to all users?</p>
@@ -34,27 +77,27 @@
         <section>
           <h2>Lets create some new package!</h2>
           <ul>
-            <li><kbd>cd &lt;somewhere-on-the-disk-where-i-want-to-store-obs-content&gt;</kbd></li>
-            <li><kbd>osc checkout home:&lt;username&gt;</kbd> checks out the home project we have on OBS</li>
-            <li><kbd>cd home:&lt;username&gt;</kbd> enter the working-directory of the project</li>
+            <li><pre><kbd>cd &lt;somewhere-on-the-disk-where-i-want-to-store-obs-content&gt;</kbd></pre></li>
+            <li><pre><kbd>osc checkout home:&lt;username&gt;</kbd></pre> checks out the home project we have on OBS</li>
+            <li><pre><kbd>cd home:&lt;username&gt;</kbd></pre> enter the working-directory of the project</li>
           </ul>
         </section>
         <section>
-          <ul>
-            <li><kbd>mkdir mypackage</kbd> creates the folder, DUH.</li>
-            <li><kbd>cp various-things mypackage</kbd> copies all the things you want to the mypackage directory</li>
-            <li><kbd>osc add mypackage</kbd> adds the content to versioning system</li>
-            <li><kbd>osc commit</kbd> sends the files to the OBS</li>
-            <li><kbd>osc results</kbd> shows up the state of the package (building/failed/etc...)</li>
-          </ul>
-        </section>
+<pre><code data-trim contenteditable>
+mkdir mypackage
+cp various-things mypackage/
+osc add mypackage
+osc commit
+osc results
+</code></pre>
         <section>
           <h2>But I wanted to build the package here!</h2>
           <p>Fear not! We can do that too!</p>
-          <ul>
-            <li><kbd>cd mypackage</kbd></li>
-            <li><kbd>osc build</kbd> starts building the package against default target, mostly openSUSE-Factory</li>
-          </ul>
+<pre><code data-trim contenteditable>
+    cd my-package-directory
+    osc build
+    # wait wait wait
+</code></pre>
         </section>
         <section>
           <h2>Lovely, I have package. What can I do with it now?</h2>
@@ -140,3 +183,40 @@ $ osc mr -m "Maintenance update wrt bnc#something"
 $ osc sr my:devel:project package openSUSE:13.2:Update
 </code></pre>
         </section>
+      </div>
+    </div>
+    <script src="reveal/lib/js/head.min.js"></script>
+    <script src="reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
