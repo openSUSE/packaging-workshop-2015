@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Packaging - Services</title>
+
+    <meta name="description" content="Packaging - Services">
+    <meta name="author" content="Marcus Rückert">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="reveal/css/reveal.css">
+    <link rel="stylesheet" href="reveal/css/theme/solarized.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h2>Services</h2>
+        </section>
+        <section>
+          <h4>We do not care which you prefer. We will cover both.</h4>
+          <ul>
+            <li>sysvinit</li>
+            <li>systemd</li>
+          </ul>
+        </section>
+        <section>
+          <h3>General notes</h3>
+        </section>
+        <section>
+          <h4>Know the service you package!</h4>
+          <ul>
+            <li>Which user/group?</li>
+            <li>Where does it need to write?</li>
+            <li>Should it really be able to write there?</li>
+          </ul>
+        </section>
+        <section>
+          <h4>Dont know it yet?</h4>
+          <ul>
+            <li>You are probably not the first to package this. Check what other distros do. Do not diverge unnecessarily!</li>
+            <li>You are really the first to package it? Then ...</li>
+            <li>Create the service user and group in package, build it, install it.</li>
+            <li>su -s /bin/bash - username</li>
+            <li>Play with your service</li>
+          </ul>
+        </section>
+        <section>
+          <h4>sysvinit</h4>
+          <ul>
+            <li>shell scripts</li>
+            <li>/etc/init.d/$servicename</li>
+            <li>symlinked to rc$servicename</li>
+            <li>Template: /etc/init.d/skeleton</li>
+          </ul>
+        </section>
+        <section>
+          <h4>systemd</h4>
+          <ul>
+            <li>not shell scripts. format a bit like ini files. see<br /><code>man 5 systemd.unit</code></li>
+            <li>/usr/lib/systemd/system/$servicename.service</li>
+            <li>symlink /sbin/service to rc$servicename</li>
+            <li>no template: less boiler plate and you can copy paste pretty much from the man page</li> 
+          </ul>
+        </section>
+        <section>
+          <h4>init systems at (open)SUSE</h4>
+          <dl>
+            <dt>&gt;= 12.3</dt>
+              <dd>Can use both, but IMHO should use systemd.</dd>
+            <dt>&lt; 12.3</dt>
+              <dd>Have to use sysvinit</dd>
+          </dl>
+        </section>
+        <section>
+          <h4>Friendly reminder</h4>
+          <p>Just because you port a package to systemd, keep the sysvinit support alive for older distros.</p>
+          <p>Will show you how next ...</p>
+        </section>
+        <section>
+          <h3>The practical side</h3>
+          <small>Will use training package</small>
+        </section>
+        <section>
+         <h4>Code drop - Preamble</h4>
+<pre><code data-trim contenteditable>%if 0%{?suse_version} >= 1230
+%bcond_without systemd
+%else
+%bcond_with    systemd
+%endif
+[snip]
+%if %{with systemd}
+BuildRequires:  pkgconfig(systemd)
+%{?systemd_requires}
+%else
+PreReq:        %{insserv_prereq} %{fillup_prereq}
+%endif</code></pre>         
+        </section>
+        <section>
+         <h4>Code drop - %install</h4>
+<pre><code data-trim contenteditable>%if %{with systemd}
+install -D -m 0644 %{S:2} \
+  %{buildroot}%{_unitdir}/redis.service
+install -D -m 0644 %{S:3} \
+  %{buildroot}/usr/lib/tmpfiles.d/%{name}.conf
+ln -sf %{_sbindir}/service %{buildroot}%{_sbindir}/rc%{name}
+%else
+install -D -m 0755 utils/redis_init_script \
+  %{buildroot}%{_sysconfdir}/init.d/redis
+ln -sf %{_sysconfdir}/init.d/%{name} %{buildroot}%{_sbindir}/rc%{name}
+%endif</code></pre>
+        </section>
+        <section>
+         <h4>Code drop - scripts part 1</h4>
+<pre><code data-trim contenteditable>%pre
+/usr/sbin/groupadd -r %{name} >/dev/null 2>&amp;1 || :
+/usr/sbin/useradd -g %{name} -s /bin/false -r \
+  -c "Redis" -d %{_data_dir} %{name} >/dev/null 2>&amp;1 || :
+%if %{with systemd}
+%service_add_pre %{name}.target
+%endif
+
+%post
+%if %{with systemd}
+systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
+%service_add_post %{name}.service
+%endif</code></pre>
+        </section>
+        <section>
+         <h4>Code drop - scripts part 2</h4>
+<pre><code data-trim contenteditable>
+%preun
+%if %{with systemd}
+%service_del_preun %{name}.target
+%else
+%stop_on_removal %{name}
+%endif
+
+%postun
+%if %{with systemd}
+%service_del_postun %{name}.target
+%else
+%restart_on_update %{name}
+%insserv_cleanup
+%endif</code></pre>
+        </section>
+        <section>
+          <h4>Code drops - explained</h4>
+        
+        </section>
+        <section>
+          <h3>Services - Take away #1</h3>
+          <ul>
+            <li>It is relatively easy to support both init systems.</li>
+            <li>Use the macros that the distro provide for you.</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Q &amp; A</h1>
+        </section>
+        <section>
+          <h1>Thank you for flying with openSUSE</h1>
+        </section>
+      </div>
+    </div>
+    <script src="reveal/lib/js/head.min.js"></script>
+    <script src="reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
