@@ -1,6 +1,6 @@
         <section>
           <h1>Packager's worklfow</h1>
-          <p>How the hell can I get my package to everybody?</p>
+          <p>How the hell can I get my package to all users?</p>
           <p>This section displays some things done over web interface and some using CLI commands. Most of the operations are possible to do both ways</p>
         </section>
         <section>
@@ -62,7 +62,7 @@
           <p>So lets explain this on the workflow diagram <a href="https://progress.opensuse.org/workflow/factory-proposal.html">https://progress.opensuse.org/workflow/factory-proposal.html</a>.</p>
         </section>
         <section>
-          <p>All this translates for developer to "find a suitable devel project" and then "submit the pacakge to Factory".</p>
+          <p>All this translates for developer to "find a suitable devel project" and then "submit the package to Factory".</p>
 <pre><code data-trim contenteditable>
     osc sr home:&lt;username&gt; mypackage mydevelproject -m "My new cool package"
     # wait wait wait
@@ -102,5 +102,41 @@ $ osc sr -m "Finally got around to fix bnc#2345 so enjoy"
 </code></pre>
         </section>
         <section>
+        <h3>Why should you bother with updating released openSUSE's</h3>
+          <ul>
+            <li>Bugfixes should be sent to users sooner than in next openSUSE</li>
+            <li>We need to keep the distribution secure by adding security fixes</li>
+            <li>You could even consider adding feature updates if really desired</li>
+          </ul>
+        </section>
+        <section>
           <h2>Maintenance updates are not hard either</h2>
+        </section>
+        <section>
+          <p>With maintenance you have multiple options:</p>
+          <ul>
+            <li>Backport fixes to one product (ie. openSUSE-13.2)</li>
+            <li>Backport fixes to all supported products (currently 13.1 and 13.2)</li>
+            <li>Update all products with latest version of the package</li>
+          </ul>
+        </section>
+        <section>
+<pre><code data-trim contenteditable>
+$ osc maintained rsnapshot
+openSUSE:13.1:Update/rsnapshot
+openSUSE:13.2:Update/rsnapshot
+$ osc mbranch rsnapshot
+$ osc co home:scarabeus_iv:branches:OBS_Maintained:rsnapshot
+$ vi rsnapshot.openSUSE_12.3_Update/rsnapshot.spec
+$ vi rsnapshot.openSUSE_13.1_Update/rsnapshot.spec
+$ osc vc -m "I did fancy maintenance changes, I am great bnc#something"
+$ osc ci
+$ osc mr -m "Maintenance update wrt bnc#something"
+</code></pre>
+        </section>
+        <section>
+         <h3>Sending latest version to all codestreams is actually bit easier</h3>
+<pre><code data-trim contenteditable>
+$ osc sr my:devel:project package openSUSE:13.2:Update
+</code></pre>
         </section>
