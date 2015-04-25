@@ -118,11 +118,35 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
         <section>
         <h3>Example</h3>
 <pre><code data-trim>BuildRequires: libvisio-devel >= 1.2.3
-BuildRequires: cmake(GLEW)
+BuildRequires: cmake(GLEW) < 2.0
 BuildRequires: pkgconfig(X11) => 0.9
 BuildRequires: python-imaging
 Requires: python-imaging
 %requires_eq perl
+</code></pre>
+        </section>
+        <section>
+        <h3>Provides/Obsoletes/Conflicts</h3>
+        <h4>Conflicts</h4>
+        <ul>
+        <li>Used to block installation of the conflicting packages</li>
+        <li>All requiring packages should have the conflict on each other</li>
+        </ul>
+        </section>
+        <section>
+        <h4>Provides/Obsoletes</h4>
+        <ul>
+        <li>Generally used to swap one package for another</li>
+        <li>Provides/Obsoletes should be always versioned</li>
+        <li>Do not obsolete unless 100% replacement</li>
+        </ul>
+        </section>
+        <section>
+        <h3>Example</h3>
+<pre><code data-trim>Conflicts: libwriterperfect
+Provides: liboldpackage = %{version}
+Obsoletes: liboldpackage < %{version}
+Provides: alternativepackage = %{version}
 </code></pre>
         </section>
         </div>
