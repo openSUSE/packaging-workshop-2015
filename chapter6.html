@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Packaging Collaboration and Communication </title>
+
+    <meta name="description" content="Framework for Packaging Workshop @ oSC 2015">
+    <meta name="author" content="Craig Gardner">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="reveal/css/reveal.css">
+    <link rel="stylesheet" href="reveal/css/theme/solarized.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h2>Us and Them</h2>
+	  <q>
+	  And after all we're only ordinary men <br>
+	  </q>
+	  <p align=right> -- Pink Floyd</p>
+        </section>
+        <section>
+          <h2>Collaboration and Communication</h2>
+	  <ul>
+		  <li>A Team of Heroes</li>
+		  <li>... and A Team of Ordinary Men</li>
+		  <li>Together we are Mighty</li>
+		  <li>... Divided we are less than ordinary </li>
+		  <br>
+		  <li>Avoiding "Us" versus "Them"</li>
+	  </ul>
+        </section>
+	<section>
+	  <h2>Today's Heroes</h2>
+	  <q>
+	  Those who display courage or self-sacrifice for the greater good
+	  </q>
+	  <p align=right> -- Wikipedia</p>
+	</section>
+        <section>
+          <h2>Courage</h2>
+          <ul>
+            <li>Follow the Plan (even amidst disagreement)</li>
+            <li>Disagree with grace and optimism</li>
+            <li>Recognize that "Rejection" is not a Personal Attack</li>
+	    <li>See the Vision, Promote the Vision</li>
+          </ul>
+        </section>
+        <section>
+          <h2>The Plan</h2>
+	  <ul>
+		  <li>https://en.opensuse.org/Portal:Packaging </li>
+		  <li>https://en.opensuse.org/openSUSE:Packaging_guidelines</li>
+		  <li>It's a WIKI !</li>
+		  <li>ML : <a href="http://lists.opensuse.org/opensuse-packaging/">opensuse-packaging@opensuse.org</a></li>
+		  <li>Talk, exchange ideas, ask questions</li>
+	  </ul>
+        </section>
+        <section>
+          <h2>Most Common Challenges</h2>
+	  <ul>
+		  <li>TBD </li>
+	  </ul>
+        </section>
+	<section>
+	  <h2>Most Time Consuming Tasks</h2>
+	  <ul>
+		  <li>TBD</li>
+	  </ul>
+	</section>
+	<section>
+	  <h2>What's Working Well</h2>
+	  <ul>
+		  <li>TBD</li>
+	  </ul>
+	</section>
+	<section>
+	  <h2>Collaboration</h2>
+	  <ul>
+		  <li>Takes Time</li>
+		  <li>Takes Discipline </li>
+		  <li>Takes Responsibility </li>
+		  <li>Yields great rewards, greater than the investment</li>
+	  </ul>
+	</section>
+	<section>
+	  <h2>Patch Policy</h2>
+	  <ul>
+		  <li>TBD</li>
+	  </ul>
+	</section>
+        <section>
+          <h2>Hallmarks of Excellence</h2>
+	  <h3>Badges of Heroism</h3>
+          <p>TBD</p>
+        </section>
+        <section>
+          <h2>... In Parting, We Say</h2>
+	  <p>Pink Floyd's 'TIME'</p>
+	  <p><b>Waiting for someone or something to show you the way.</b></p>
+	  <p>We acknowledge the passion and skill of you packagers.  We are grateful to call you friends.</p>  
+        </section>
+      </div>
+    </div>
+    <script src="reveal/lib/js/head.min.js"></script>
+    <script src="reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
