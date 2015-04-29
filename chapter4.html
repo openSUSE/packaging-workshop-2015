@@ -192,15 +192,32 @@ Group:   some/group
 
 %description python
 The long awaited python bindings providing a, b, and c for bla
-
-%package -n libbla1
+</code></pre>
+        </section>
+        <section>
+        <h3>Libraries</h3>
+        <p>Package libraries are bit of a special kind:</p>
+        <ul>
+        <li>They require to be subpackage named as the soname they provide</li>
+        <li>Must run ldconfig after install and uninstall, updates count</li>
+        <li>Should have proper soname data set</li>
+        </ul>
+        <p>One should never ever consider packaging static library!</p>
+        </section>
+        <section>
+        <h3>Example</h3>
+<pre><code data-trim>%package -n libbla1
 Summary: library for bla
 Group: System/Libraries
 
 %description -n libbla1
 Shared library to operate with bla
 
-%pre -n libbla1 -p /bin/ldconfig
+%post -n libbla1 -p /sbin/ldconfig
+%postun -n libbla1 -p /sbin/ldconfig
+
+%files -n libbla1
+%{_libdir}/libbla1.so.*
 </code></pre>
         </section>
         </div>
