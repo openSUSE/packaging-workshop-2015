@@ -178,6 +178,31 @@ Provides: alternativepackage = %{version}
 update-alternatives --install %{_javadir}/el_api.jar el_api %{_javadir}/%{name}-el-%{elspec}-api.jar 2030
 </code></pre>
         </section>
+        <section>
+        <h3>Subpackages</h3>
+        <p>Subpackages carry the syntax logic for the main spec package.</p>
+        <p>They have it's own provides/requires/scriptlets/files/etc., but buildrequires should be at main pkg for readability.</p>
+        <p>There are two types, appending name (ie. bla and bla-python) or completely renaming ones.</p>
+        </section>
+        <section>
+        <h3>Example</h3>
+<pre><code data-trim>%package python # generates bla-python
+Summary: python bindings for bla
+Group:   some/group
+
+%description python
+The long awaited python bindings providing a, b, and c for bla
+
+%package -n libbla1
+Summary: library for bla
+Group: System/Libraries
+
+%description -n libbla1
+Shared library to operate with bla
+
+%pre -n libbla1 -p /bin/ldconfig
+</code></pre>
+        </section>
         </div>
     </div>
     <script src="reveal/lib/js/head.min.js"></script>
