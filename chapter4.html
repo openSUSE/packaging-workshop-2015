@@ -158,6 +158,26 @@ Obsoletes: liboldpackage < %{version}
 Provides: alternativepackage = %{version}
 </code></pre>
         </section>
+        <section>
+        <h3>Scriptlets</h3>
+        <p>Scriptlets are shell or lua scripts executed during various phases of the package install</p>
+        <p>They have different $1 values for update/newinstall/uninstall in various phases</p>
+        <ul>
+        <li>%pretrans - LUA only</li>
+        <li>%pre</li>
+        <li>%post</li>
+        <li>%preun</li>
+        <li>%postun</li>
+        <li>%posttrans</li>
+        </ul>
+        </section>
+        <section>
+        <h3>Example</h3>
+<pre><code data-trim>Requires(pre): update-aternatives
+%pre
+update-alternatives --install %{_javadir}/el_api.jar el_api %{_javadir}/%{name}-el-%{elspec}-api.jar 2030
+</code></pre>
+        </section>
         </div>
     </div>
     <script src="reveal/lib/js/head.min.js"></script>
