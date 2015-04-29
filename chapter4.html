@@ -109,6 +109,14 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
         </ul>
         </section>
         <section>
+        <h3>Requires - scriptlets</h3>
+        <ul>
+        <li>Special case of require needed only for scriptlet not during runtime</li>
+        <li>Used to request just something extra for the phase</li>
+        <li>Alternatively also used to ensure something be installed</li>
+        </ul>
+        </section>
+        <section>
         <h3>Requires specialities</h3>
         <ul>
         <li>%requires_eq - for exactly same version requirement</li>
@@ -121,6 +129,7 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
 BuildRequires: cmake(GLEW) < 2.0
 BuildRequires: pkgconfig(X11) => 0.9
 BuildRequires: python-imaging
+Requires(post): update-alternatives
 Requires: python-imaging
 %requires_eq perl
 </code></pre>
