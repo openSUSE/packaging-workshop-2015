@@ -199,7 +199,7 @@
           </section>
           <section>
             <h2>Lets create some new package!</h2>
-    <pre><code data-trim contenteditable>cd somewhere-on-the-disk-where-i-want-to-store-obs-content
+    <pre><code data-trim>cd somewhere-on-the-disk-where-i-want-to-store-obs-content
     $ osc checkout home:&lt;username&gt;
     $ cd home:&lt;username&gt;
     $ mkdir mypackage
@@ -212,7 +212,7 @@
           <section>
             <h2>But I wanted to build the package on my machine :-(</h2>
             <p>Fear not. We can do that too!</p>
-    <pre><code data-trim contenteditable>$ cd my-package-directory
+    <pre><code data-trim>$ cd my-package-directory
     $ osc build
     # wait wait wait
     </code></pre>
@@ -229,7 +229,7 @@
             <li>Find suitable devel project</li>
             <li>Submit package from devel project to factory</li>
             </ul>
-    <pre><code data-trim contenteditable>$ osc sr home:&lt;username&gt; mypackage mydevelproject -m "My new cool package"
+    <pre><code data-trim>$ osc sr home:&lt;username&gt; mypackage mydevelproject -m "My new cool package"
     # wait wait wait
     $ osc sr mydevelproject mypackage openSUSE:Factory
     </code></pre>
@@ -238,7 +238,7 @@
             <h2>How about doing an update for existing package?</h2>
           </section>
           <section>
-    <pre><code data-trim contenteditable>$ osc develproject openSUSE:Factory rsnapshot
+    <pre><code data-trim>$ osc develproject openSUSE:Factory rsnapshot
     Archiving
     $ osc branch Archiving rsnapshot
     A working copy of the branched package can be checked out with:
@@ -256,7 +256,7 @@
           </section>
           <section>
               <h2>Patches and ChangeLog</h2>
-    <pre><code data-trim contenteditable> - Version bump to 4.4.4 bnc#123456
+    <pre><code data-trim> - Version bump to 4.4.4 bnc#123456
      * Feature 1
      * Fix 12
        + long waited bugfix for feature XYZ
@@ -286,7 +286,7 @@
             </ul>
           </section>
           <section>
-    <pre><code data-trim contenteditable>$ osc maintained rsnapshot
+    <pre><code data-trim>$ osc maintained rsnapshot
     openSUSE:13.1:Update/rsnapshot
     openSUSE:13.2:Update/rsnapshot
     $ osc mbranch rsnapshot
@@ -300,7 +300,7 @@
           </section>
           <section>
            <h3>Sending latest version is bit easier</h3>
-    <pre><code data-trim contenteditable>$ osc sr my:devel:project package openSUSE:13.2:Update
+    <pre><code data-trim>$ osc sr my:devel:project package openSUSE:13.2:Update
     </code></pre>
           </section>
           <section>
@@ -499,6 +499,49 @@ Shared library to operate with bla
             <h3>Some advanced topics</h3>
           </section>
         <section>
+          <h2>Condition red?</h2>
+        </section>
+        <section>
+          <h3>Looks familiar?</h3>
+<pre><code data-trim>%if 0%{?something}
+do stuff
+%else
+do other stuff
+%endif
+</code></pre>
+        </section>
+        <section>
+          <h3>Let's cast</h3>
+<pre><code data-trim>%define suse_version 1320
+#
+# rpm casts that into a number
+0%{?suse_version} =&gt; "01320" =&gt; 1320
+0%{?something_undefined} =&gt; "0" =&gt; 0
+#
+# =&gt; anything &gt; 0 is true
+%if 0%{?suse_version}
+#
+# =&gt; any suse with version bigger than 13.2
+%if 0%{?suse_version} &gt;= 1320
+#
+# =&gt; anything before 13.2?
+%if (0%{?suse_version} &amp;&amp; 0%{?suse_version} &lt;= 1320)</code></pre>
+        </section>
+        <section>
+          <h3>Funky conditions!</h3>
+<small>Using systemd for all rpm based distros? No problem.</small>
+<pre><code data-trim>%if 0%{?suse_version} > 1230 \
+  || 0%{?rhel_version} > 600 \
+  || 0%{?centos_version} > 600 \
+  || 0%{?fedora_version} >= 20 \
+  || 0%{?el7}%{?fc20}%{?fc21}%{?fc22}
+%bcond_without  systemd
+%else
+%bcond_with     systemd
+%endif</code></pre>
+<small>Remove the "\" and the new line in the %if condition</small>
+        </section>
+        <section>
           <h2>Services</h2>
         </section>
         <section>
@@ -567,7 +610,7 @@ Shared library to operate with bla
         </section>
         <section>
          <h4>Code drop - Preamble</h4>
-<pre><code data-trim contenteditable>%if 0%{?suse_version} >= 1230
+<pre><code data-trim>%if 0%{?suse_version} >= 1230
 %bcond_without systemd
 %else
 %bcond_with    systemd
@@ -582,7 +625,7 @@ PreReq:        %{insserv_prereq} %{fillup_prereq}
         </section>
         <section>
          <h4>Code drop - %install</h4>
-<pre><code data-trim contenteditable>%if %{with systemd}
+<pre><code data-trim>%if %{with systemd}
 install -D -m 0644 %{S:2} \
   %{buildroot}%{_unitdir}/redis.service
 install -D -m 0644 %{S:3} \
@@ -597,7 +640,7 @@ install -dD %{buildroot}%{_var}/run/redis/
         </section>
         <section>
          <h4>Code drop - scripts part 1</h4>
-<pre><code data-trim contenteditable>%pre
+<pre><code data-trim>%pre
 /usr/sbin/groupadd -r %{name} >/dev/null 2>&amp;1 || :
 /usr/sbin/useradd -g %{name} -s /bin/false -r \
   -c "Redis" -d %{_data_dir} %{name} >/dev/null 2>&amp;1 || :
@@ -613,7 +656,7 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
         </section>
         <section>
          <h4>Code drop - scripts part 2</h4>
-<pre><code data-trim contenteditable>%preun
+<pre><code data-trim>%preun
 %if %{with systemd}
 %service_del_preun %{name}.service
 %else
@@ -630,7 +673,7 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
         </section>
         <section>
           <h4>Code drop - files</h4>
-<pre><code data-trim contenteditable>%files
+<pre><code data-trim>%files
 %defattr(-,root,root)
 %{_sbindir}/rc%{name}
 %if %{with systemd}
@@ -656,7 +699,7 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
         </section>
         <section>
           <h4>Systemd unit file</h4>
-<pre><code data-trim contenteditable>[Unit]
+<pre><code data-trim>[Unit]
 Description=Redis
 After=network.target
 
@@ -672,7 +715,7 @@ WantedBy=multi-user.target</code></pre>
         </section>
         <section>
           <h4>sysvinit</h4>
-<pre><code data-trim contenteditable>#!/bin/sh
+<pre><code data-trim>#!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          redis
 # Required-Start:    $syslog $remote_fs
@@ -787,7 +830,7 @@ rc_exit
         </section>
         <section>
           <h4>systemctl redis@redis2</h4>
-<pre><code data-trim contenteditable>[Unit]
+<pre><code data-trim>[Unit]
 Description=Redis
 After=network.target
 PartOf=redis.target
