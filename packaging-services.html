@@ -238,6 +238,10 @@ rc_reset
 
 case "$1" in
     start)
+        if [ ! -d /var/run/redis ] ; then
+          install -o redis -g redis -m 0750 \
+            /var/run/redis
+        fi
         echo -n "Starting redis "
         /sbin/startproc -u redis -g redis \
            $REDIS_BIN /etc/redis/redis.conf
@@ -291,6 +295,14 @@ case "$1" in
 esac
 rc_exit
 </code></pre>
+        </section>
+        <section>
+          <h4>Services - Take away #2</h4>
+          <ul>
+            <li>use the /etc/init.d/skeleton if available (will upload to the wiki)</li>
+            <li>if possible try to provide a similar/the same experience for systemd/sysvinit</li>
+            <li>sysvinit: read the startproc man page</li>
+          </ul>
         </section>
         <section>
           <h1>Q &amp; A</h1>
