@@ -305,6 +305,39 @@ rc_exit
           </ul>
         </section>
         <section>
+          <h2>Too simple?</h2>
+          <p>Let's do a few advanced things</p>
+        </section>
+        <section>
+          <h4>Systemd unit file</h4>
+          <ul>
+            <li>Restart=</li>
+            <li>ExecStartPre=</li>
+            <li>ExecReload=</li>
+            <li>ExecStop=</li>
+            <li>ExecStopPost=</li>
+          </ul>
+        </section>
+        <section>
+          <h4>systemctl redis@redis2</h4>
+<pre><code data-trim contenteditable>[Unit]
+Description=Redis
+After=network.target
+PartOf=redis.target
+
+[Service]
+Type=simple
+User=redis
+Group=redis
+PrivateTmp=true
+PIDFile=/var/run/redis/%i.pid
+ExecStart=/usr/sbin/redis-server /etc/redis/%i.conf
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target redis.target</code></pre>
+        </section>
+        <section>
           <h1>Q &amp; A</h1>
         </section>
         <section>
