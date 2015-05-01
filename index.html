@@ -148,7 +148,841 @@
           </section>
         </section>
         <section>
+          <section>
+            <h1>OBS is beast</h1>
+          </section>
+          <section>
+            <h1>Packager's workflow</h1>
+            <p>How the hell can I get my package to all users?</p>
+            <p>This section displays some things done over web interface and some using CLI commands. Most of the operations are possible to do both ways</p>
+          </section>
+          <section>
+            <h2>Have account yet?</h2>
+            <p>Lets create it!</p>
+          </section>
+          <section>
+            <img src="signup-obs.png" alt="OBS signup" />
+          </section>
+          <section>
+            <img src="signup-create.png" alt="Create account" />
+          </section>
+          <section>
+            <h2>What did I get with the account?</h2>
+            <ul>
+              <li>Own home project <b><code>home:&lt;username&gt;</code></b></li>
+              <li>Access to branching/maintenance requests</li>
+              <li>cli interface and possiblity to build things localy</li>
+              <li>account for bugzilla.opensuse.org</li>
+              <li>and many many things more...</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Home project overview</h2>
+            <img src="home-project.png" alt="Home project" />
+          </section>
+          <section>
+            <h2>Repositories</h2>
+            <img src="home-repositories.png" alt="Home project repositories" />
+          </section>
+          <section>
+            <h2>Lets create some new package!</h2>
+    <pre><code data-trim contenteditable>cd somewhere-on-the-disk-where-i-want-to-store-obs-content
+    $ osc checkout home:&lt;username&gt;
+    $ cd home:&lt;username&gt;
+    $ mkdir mypackage
+    $ cp various-things mypackage/
+    $ osc add mypackage
+    $ osc commit
+    $ osc results
+    </code></pre>
+          </section>
+          <section>
+            <h2>But I wanted to build the package on my machine :-(</h2>
+            <p>Fear not. We can do that too!</p>
+    <pre><code data-trim contenteditable>$ cd my-package-directory
+    $ osc build
+    # wait wait wait
+    </code></pre>
+          </section>
+          <section>
+            <h2>Lovely, I have package.</h2>
+            <h2>What can I do with it now?</h2>
+            <p>Overall the goal of our effort should be to get the package consumed by as many people as possible.</p>
+            <p>So lets explain this on the workflow diagram <a href="https://progress.opensuse.org/workflow/factory-proposal.html">https://progress.opensuse.org/workflow/factory-proposal.html</a>.</p>
+          </section>
+          <section>
+            <p>All this translates for developer to two tasks:</p>
+            <ul>
+            <li>Find suitable devel project</li>
+            <li>Submit package from devel project to factory</li>
+            </ul>
+    <pre><code data-trim contenteditable>$ osc sr home:&lt;username&gt; mypackage mydevelproject -m "My new cool package"
+    # wait wait wait
+    $ osc sr mydevelproject mypackage openSUSE:Factory
+    </code></pre>
+          </section>
+          <section>
+            <h2>How about doing an update for existing package?</h2>
+          </section>
+          <section>
+    <pre><code data-trim contenteditable>$ osc develproject openSUSE:Factory rsnapshot
+    Archiving
+    $ osc branch Archiving rsnapshot
+    A working copy of the branched package can be checked out with:
+    osc co home:scarabeus_iv:branches:Archiving/rsnapshot
+    $ osc co home:scarabeus_iv:branches:Archiving/rsnapshot
+    $ cd home:scarabeus_iv:branches:Archiving/rsnapshot
+    $ vi rsnapshot.spec # hackyhacky
+    $ osc vc
+    $ osc build
+    # wait wait wait
+    $ osc ci
+    $ osc results
+    $ osc sr -m "Got around to fix bnc#2345 so enjoy"
+    </code></pre>
+          </section>
+          <section>
+              <h2>Patches and ChangeLog</h2>
+    <pre><code data-trim contenteditable> - Version bump to 4.4.4 bnc#123456
+     * Feature 1
+     * Fix 12
+       + long waited bugfix for feature XYZ
+    - fix segfault on load incorrect document (bnc#123456)
+     * foo-1.2.4-buffer-owerflow.patch
+    - remove obsolete patch:
+     * foo-1.2.3-buildfix.patch
+    </code></pre>
+          </section>
+          <section>
+            <h2>Maintenance updates are not hard either</h2>
+          </section>
+          <section>
+          <h3>Why ought you bother with updating releases?</h3>
+            <ul>
+              <li>Bugfixes should be sent to users sooner than in next openSUSE</li>
+              <li>We need to keep the distribution secure by adding security fixes</li>
+              <li>You could even consider adding feature updates if really desired</li>
+            </ul>
+          </section>
+          <section>
+            <h3>With maintenance you have multiple choices:</h3>
+            <ul>
+              <li>Backport fixes to one product (ie. openSUSE-13.2)</li>
+              <li>Backport fixes to all supported products (currently 13.1 and 13.2)</li>
+              <li>Update all products with latest version of the package</li>
+            </ul>
+          </section>
+          <section>
+    <pre><code data-trim contenteditable>$ osc maintained rsnapshot
+    openSUSE:13.1:Update/rsnapshot
+    openSUSE:13.2:Update/rsnapshot
+    $ osc mbranch rsnapshot
+    $ osc co home:scarabeus_iv:branches:OBS_Maintained:rsnapshot
+    $ vi rsnapshot.openSUSE_12.3_Update/rsnapshot.spec
+    $ vi rsnapshot.openSUSE_13.1_Update/rsnapshot.spec
+    $ osc vc -m "I did fancy maintenance changes, I am great bnc#something"
+    $ osc ci
+    $ osc mr -m "Maintenance update wrt bnc#something"
+    </code></pre>
+          </section>
+          <section>
+           <h3>Sending latest version is bit easier</h3>
+    <pre><code data-trim contenteditable>$ osc sr my:devel:project package openSUSE:13.2:Update
+    </code></pre>
+          </section>
+          <section>
+            <h1>Q &amp; A</h1>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Gimmme more</h1>
+            <h3>Intermediate topics</h3>
+          </section>
+            <section>
+          <h1>Spec file surgery</h1>
+          <p>What should the file contain?</p>
+          <p>How can I alter it without failing miserably?</p>
+        </section>
+        <section>
+        <h2>How does actually spec file look like?</h2>
+        </section>
+        <section>
+<pre><code data-trim>Name:           test
+Version:        1
+Release:        0
+License:        GPL-3.0
+Summary:        Testing package
+Url:            http://example.com
+Group:          some-group
+Source:         http://example.com/download/%{name}-%{version}.tar.xz
+BuildRequires:  patience-devel
+Requires:       patience-tools
+
+%description
+Hyperawesome test package
+
+%prep
+%setup -q
+
+%build
+%configure
+make %{?_smp_mflags}
+
+%install
+make install DESTDIR=%{buildroot} %{?_smp_mflags}
+
+%files
+%defattr(-,root,root)
+%doc ChangeLog README COPYING
+</code></pre>
+        </section>
+        <section>
+        <h2>Header section content dissection</h2>
+        </section>
+        <section>
+        <h3>First, the easy parts</h3>
+        <ul>
+        <li>Name, Version, Summary, Url</li>
+        <li>License - SPDX</li>
+        <li>Source - with full URL path</li>
+        <li>%description</li>
+        </ul>
+        </section>
+        <section>
+        <h3>BuildRequires</h3>
+        <ul>
+        <li>Should contain what your package needs for build</li>
+        <li>Prefferably it should be version limited (based ie on configure.ac)</li>
+        <li>If something is amiss here the package should not build</li>
+        </ul>
+        </section>
+        <section>
+        <h3>Requires</h3>
+        <ul>
+        <li>Used for Run-time dependencies</li>
+        <li>Automatically populated for shared libraries</li>
+        <li>Basically all your application needs to run ough to be there</li>
+        <li>If wrong one will notice when using the application -> tricky and be careful</li>
+        </ul>
+        </section>
+        <section>
+        <h3>Requires - scriptlets</h3>
+        <ul>
+        <li>Special case of require needed only for scriptlet not during runtime</li>
+        <li>Used to request just something extra for the phase</li>
+        <li>Alternatively also used to ensure something be installed</li>
+        </ul>
+        </section>
+        <section>
+        <h3>Requires specialities</h3>
+        <ul>
+        <li>%requires_eq - for exactly same version requirement</li>
+        <li>%requires_ge - Translates to >= on the requirement</li>
+        </ul>
+        </section>
+        <section>
+        <h3>Example</h3>
+<pre><code data-trim>BuildRequires: libvisio-devel >= 1.2.3
+BuildRequires: cmake(GLEW) < 2.0
+BuildRequires: pkgconfig(X11) => 0.9
+BuildRequires: python-imaging
+Requires(post): update-alternatives
+Requires: python-imaging
+%requires_eq perl
+</code></pre>
+        </section>
+        <section>
+        <h3>Provides/Obsoletes/Conflicts</h3>
+        <h4>Conflicts</h4>
+        <ul>
+        <li>Used to block installation of the conflicting packages</li>
+        <li>All requiring packages should have the conflict on each other</li>
+        </ul>
+        </section>
+        <section>
+        <h4>Provides/Obsoletes</h4>
+        <ul>
+        <li>Generally used to swap one package for another</li>
+        <li>Provides/Obsoletes should be always versioned</li>
+        <li>Do not obsolete unless 100% replacement</li>
+        </ul>
+        </section>
+        <section>
+        <h3>Example</h3>
+<pre><code data-trim>Conflicts: libwriterperfect
+Provides: liboldpackage = %{version}
+Obsoletes: liboldpackage < %{version}
+Provides: alternativepackage = %{version}
+</code></pre>
+        </section>
+        <section>
+        <h3>Scriptlets</h3>
+        <p>Scriptlets are shell or lua scripts executed during various phases of the package install</p>
+        <p>They have different $1 values for update/newinstall/uninstall in various phases</p>
+        <ul>
+        <li>%pretrans - LUA only</li>
+        <li>%pre</li>
+        <li>%post</li>
+        <li>%preun</li>
+        <li>%postun</li>
+        <li>%posttrans</li>
+        </ul>
+        </section>
+        <section>
+        <h3>Example</h3>
+<pre><code data-trim>Requires(pre): update-aternatives
+%pre
+update-alternatives --install %{_javadir}/el_api.jar el_api \
+  %{_javadir}/%{name}-el-%{elspec}-api.jar 2030
+</code></pre>
+        </section>
+        <section>
+        <h3>Subpackages</h3>
+        <p>Subpackages carry the syntax logic for the main spec package.</p>
+        <p>They have it's own provides/requires/scriptlets/files/etc., but buildrequires should be at main pkg for readability.</p>
+        <p>There are two types, appending name (ie. bla and bla-python) or completely renaming ones.</p>
+        </section>
+        <section>
+        <h3>Example</h3>
+<pre><code data-trim>%package python # generates bla-python
+Summary: python bindings for bla
+Group:   some/group
+
+%description python
+The long awaited python bindings providing a, b, and c for bla
+</code></pre>
+        </section>
+        <section>
+        <h3>Libraries</h3>
+        <p>Package libraries are bit of a special kind:</p>
+        <ul>
+        <li>They require to be subpackage named as the soname they provide</li>
+        <li>Must run ldconfig after install and uninstall, updates count</li>
+        <li>Should have proper soname data set</li>
+        </ul>
+        <p>One should never ever consider packaging static library!</p>
+        </section>
+        <section>
+        <h3>Example</h3>
+<pre><code data-trim>%package -n libbla1
+Summary: library for bla
+Group: System/Libraries
+
+%description -n libbla1
+Shared library to operate with bla
+
+%post -n libbla1 -p /sbin/ldconfig
+%postun -n libbla1 -p /sbin/ldconfig
+
+%files -n libbla1
+%{_libdir}/libbla1.so.*
+</code></pre>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Can I haz more</h1>
+            <h3>Some advanced topics</h3>
+          </section>
+        <section>
+          <h2>Services</h2>
+        </section>
+        <section>
+          <h4>We do not care which you prefer. We will cover both.</h4>
+          <ul>
+            <li>sysvinit</li>
+            <li>systemd</li>
+          </ul>
+        </section>
+        <section>
+          <h3>General notes</h3>
+        </section>
+        <section>
+          <h4>Know the service you package!</h4>
+          <ul>
+            <li>Which user/group?</li>
+            <li>Where does it need to write?</li>
+            <li>Should it really be able to write there?</li>
+          </ul>
+        </section>
+        <section>
+          <h4>Dont know it yet?</h4>
+          <ul>
+            <li>You are probably not the first to package this. Check what other distros do. Do not diverge unnecessarily!</li>
+            <li>You are really the first to package it? Then ...</li>
+            <li>Create the service user and group in package, build it, install it.</li>
+            <li>su -s /bin/bash - username</li>
+            <li>Play with your service</li>
+          </ul>
+        </section>
+        <section>
+          <h4>sysvinit</h4>
+          <ul>
+            <li>shell scripts</li>
+            <li>/etc/init.d/$servicename</li>
+            <li>symlinked to rc$servicename</li>
+            <li>Template: /etc/init.d/skeleton</li>
+          </ul>
+        </section>
+        <section>
+          <h4>systemd</h4>
+          <ul>
+            <li>not shell scripts. format a bit like ini files. see<br /><code>man 5 systemd.unit</code></li>
+            <li>/usr/lib/systemd/system/$servicename.service</li>
+            <li>symlink /sbin/service to rc$servicename</li>
+            <li>no template: less boiler plate and you can copy paste pretty much from the man page</li>
+          </ul>
+        </section>
+        <section>
+          <h4>init systems at (open)SUSE</h4>
+          <dl>
+            <dt>&gt;= 12.3</dt>
+              <dd>Can use both, but IMHO should use systemd.</dd>
+            <dt>&lt; 12.3</dt>
+              <dd>Have to use sysvinit</dd>
+          </dl>
+        </section>
+        <section>
+          <h4>Friendly reminder</h4>
+          <p>Just because you port a package to systemd, keep the sysvinit support alive for older distros.</p>
+          <p>Will show you how next ...</p>
+        </section>
+        <section>
+          <h3>The practical side</h3>
+          <small>Will use training package</small>
+        </section>
+        <section>
+         <h4>Code drop - Preamble</h4>
+<pre><code data-trim contenteditable>%if 0%{?suse_version} >= 1230
+%bcond_without systemd
+%else
+%bcond_with    systemd
+%endif
+[snip]
+%if %{with systemd}
+BuildRequires:  pkgconfig(systemd)
+%{?systemd_requires}
+%else
+PreReq:        %{insserv_prereq} %{fillup_prereq}
+%endif</code></pre>
+        </section>
+        <section>
+         <h4>Code drop - %install</h4>
+<pre><code data-trim contenteditable>%if %{with systemd}
+install -D -m 0644 %{S:2} \
+  %{buildroot}%{_unitdir}/redis.service
+install -D -m 0644 %{S:3} \
+  %{buildroot}/usr/lib/tmpfiles.d/%{name}.conf
+ln -sf %{_sbindir}/service %{buildroot}%{_sbindir}/rc%{name}
+%else
+install -D -m 0755 utils/redis_init_script \
+  %{buildroot}%{_sysconfdir}/init.d/redis
+ln -sf %{_sysconfdir}/init.d/%{name} %{buildroot}%{_sbindir}/rc%{name}
+install -dD %{buildroot}%{_var}/run/redis/
+%endif</code></pre>
+        </section>
+        <section>
+         <h4>Code drop - scripts part 1</h4>
+<pre><code data-trim contenteditable>%pre
+/usr/sbin/groupadd -r %{name} >/dev/null 2>&amp;1 || :
+/usr/sbin/useradd -g %{name} -s /bin/false -r \
+  -c "Redis" -d %{_data_dir} %{name} >/dev/null 2>&amp;1 || :
+%if %{with systemd}
+%service_add_pre %{name}.service
+%endif
+
+%post
+%if %{with systemd}
+systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
+%service_add_post %{name}.service
+%endif</code></pre>
+        </section>
+        <section>
+         <h4>Code drop - scripts part 2</h4>
+<pre><code data-trim contenteditable>%preun
+%if %{with systemd}
+%service_del_preun %{name}.service
+%else
+%stop_on_removal %{name}
+%endif
+
+%postun
+%if %{with systemd}
+%service_del_postun %{name}.service
+%else
+%restart_on_update %{name}
+%insserv_cleanup
+%endif</code></pre>
+        </section>
+        <section>
+          <h4>Code drop - files</h4>
+<pre><code data-trim contenteditable>%files
+%defattr(-,root,root)
+%{_sbindir}/rc%{name}
+%if %{with systemd}
+/usr/lib/tmpfiles.d/%{name}.conf
+%{_unitdir}/%{name}.service
+%else
+/init.d/%{name}
+%dir %attr(750,redis,redis) %{_var}/run/redis/
+%endif</code></pre>
+        </section>
+        <section>
+          <h3>Services - Take away #1</h3>
+          <ul>
+            <li>we use bcond_with(out) to get a "speaking" conditional</li>
+            <li>Directories in /run or /var/run are handled using systemd-tmpfiles</li>
+            <li>With sysvinit create them in the init script or have them as part of the package</li>
+            <li>It is relatively easy to support both init systems.</li>
+            <li>Use the macros that the distro provide for you.</li>
+          </ul>
+        </section>
+        <section>
+          <h2>How about some actual init scripts?</h2>
+        </section>
+        <section>
+          <h4>Systemd unit file</h4>
+<pre><code data-trim contenteditable>[Unit]
+Description=Redis
+After=network.target
+
+[Service]
+Type=simple
+User=redis
+Group=redis
+PIDFile=/var/run/redis/redis.pid
+ExecStart=/usr/sbin/redis-server /etc/redis/redis.conf
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+        </section>
+        <section>
+          <h4>sysvinit</h4>
+<pre><code data-trim contenteditable>#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          redis
+# Required-Start:    $syslog $remote_fs
+# Should-Start:      $time ypbind smtp
+# Required-Stop:     $syslog $remote_fs
+# Should-Stop:       ypbind smtp
+# Default-Start:     3 5
+# Default-Stop:      0 1 2 6
+# Short-Description: redis key value store
+# Description:       redis a key value store with data types
+### END INIT INFO
+REDIS_BIN=/usr/sbin/redis-server
+test -x $REDIS_BIN || { echo "$REDIS_BIN not installed";
+        if [ "$1" = "stop" ]; then exit 0;
+        else exit 5; fi; }
+
+
+# Check for existence of needed config file and read it
+# REDIS_CONFIG=/etc/sysconfig/redis
+# test -r $REDIS_CONFIG || { echo "$REDIS_CONFIG not existing";
+#        if [ "$1" = "stop" ]; then exit 0;
+#        else exit 6; fi; }
+
+# Read config
+#. $REDIS_CONFIG
+
+. /etc/rc.status
+
+rc_reset
+
+case "$1" in
+    start)
+        if [ ! -d /var/run/redis ] ; then
+          install -o redis -g redis -m 0750 \
+            /var/run/redis
+        fi
+        echo -n "Starting redis "
+        /sbin/startproc -u redis -g redis \
+           $REDIS_BIN /etc/redis/redis.conf
+        rc_status -v
+        ;;
+    stop)
+        echo -n "Shutting down redis "
+        /sbin/killproc $REDIS_BIN
+        rc_status -v
+        ;;
+    try-restart|condrestart)
+        if test "$1" = "condrestart"; then
+                echo "${attn} Use try-restart ${done}(LSB)${attn} rather than condrestart ${warn}(RH)${norm}"
+        fi
+        $0 status
+        if test $? = 0; then
+                $0 restart
+        else
+                rc_reset        # Not running is not a failure.
+        fi
+        rc_status
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        rc_status
+        ;;
+    force-reload)
+        echo -n "Reload service redis "
+        /sbin/killproc -HUP $REDIS_BIN
+        rc_status -v
+        ;;
+    reload)
+        echo -n "Reload service redis "
+        /sbin/killproc -HUP $REDIS_BIN
+        rc_status -v
+        ;;
+    status)
+        echo -n "Checking for service redis "
+        /sbin/checkproc $REDIS_BIN
+        rc_status -v
+        ;;
+    probe)
+        test /etc/redis/redis.conf \
+          -nt /var/run/redis.pid &amp;&amp; echo reload
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+        exit 1
+        ;;
+esac
+rc_exit
+</code></pre>
+        </section>
+        <section>
+          <h4>Services - Take away #2</h4>
+          <ul>
+            <li>use the /etc/init.d/skeleton if available (will upload to the wiki)</li>
+            <li>if possible try to provide a similar/the same experience for systemd/sysvinit</li>
+            <li>sysvinit: read the startproc man page</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Too simple?</h2>
+          <p>Let's do a few advanced things</p>
+        </section>
+        <section>
+          <h4>Systemd unit file</h4>
+          <ul>
+            <li>Restart=</li>
+            <li>ExecStartPre=</li>
+            <li>ExecReload=</li>
+            <li>ExecStop=</li>
+            <li>ExecStopPost=</li>
+          </ul>
+        </section>
+        <section>
+          <h4>systemctl redis@redis2</h4>
+<pre><code data-trim contenteditable>[Unit]
+Description=Redis
+After=network.target
+PartOf=redis.target
+
+[Service]
+Type=simple
+User=redis
+Group=redis
+PrivateTmp=true
+PIDFile=/var/run/redis/%i.pid
+ExecStart=/usr/sbin/redis-server /etc/redis/%i.conf
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target redis.target</code></pre>
+        </section>
+        <section>
           <h1>Q &amp; A</h1>
+        </section>
+                <section>
+          <h2>Secuwhat?</h2>
+        </section>
+        <section>
+          <h4>Yes really security!</h4>
+          <ul>
+            <li>System security starts with package security</li>
+            <li>BuildService automatically handles some things today that we had to do manually before</li>
+            <li>mostly a question who should access what
+              <ul>
+                <li>Who needs access to the files?</li>
+                <li>What resources should my program/service have access to?</li>
+                <li>How can we enforce those decisions?</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h4>Who will run this?</h4>
+          <ul>
+            <li>Any user on the system vs service</li>
+            <li>SUID?
+              <ul>
+                <li>Needs review and exception from security team</li>
+                <li>...even for openSUSE</li>
+                <li>File system capabilities are a really good alternative</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h4>First line of defense - File system permissions</h4>
+          <p>Disclaimer: those recommendations might be a bit biased to "more secure"</p>
+        </section>
+        <section>
+          <h5>services</h5>
+          <ul>
+            <li>config files: directories 750,root,$servicegroup, files 640,root,$servicegroup</li>
+            <li>data files (usually in /var or /srv): directories 750,serviceuser,$servicegroup, files 640,$serviceuser,$servicegroup
+              <ul>
+                <li>This does not mean your webserver should be able to write to your webapp folder in /srv/www/...</li>
+                <li>Yes often the docs of the webapp will mention such silly setups. (worst case is when the docs say "chmod 777")</li>
+              </ul>
+            <li>binaries: -,root,root</li>
+          </ul>
+        </section>
+        <section>
+          <h5>Normal programs</h5>
+          <ul>
+            <li>normally configs and binaries are world readable</li>
+            <li>Not wanted? create a group for that program. Make things only readable/writeable to that group. Example: video group</li>
+            <li>Can be used to make devices which are normally root:root available to a group via udev rule</li>
+          </ul>
+        </section>
+        <section>
+          <h4>Second line of defense - Runtime permissions</h4>
+          <p>Or does that programm really needs root permissions</p>
+          <ul>
+            <li>Case by Case decision - but usually the answer is no.</li>
+            <li>service user/group</li>
+            <li>when in doubt, ask</li>
+          </ul>
+        </section>
+        <section>
+        <h4>Are we there yet? - Hah no!</h4>
+        <ul>
+          <li>We really can do more - Apparmor/SELinux come to mind</li>
+          <li>Both require a good understanding of your program.</li>
+          <li>Give you really good control about what a program can do or can not do anymore.</li>
+          <li>systemd units: SystemCallFilter=</li>
+        </ul>
+        </section>
+        <section>
+          <h4>But my program really needs suid or ...</h4>
+          <p>... this dbus service or be started by default</p>
+          <p>Open an audit bug and assign it to the security-team</p>
+        </section>
+        <section>
+          <h1>Q &amp; A</h1>
+        </section>
+
+        </section>
+        <section>
+          <section>
+            <h1>Collaboration</h1>
+            <h3>"But I just want to sit here and do my stuff"</h3>
+          </section>
+              <section>
+          <h2>Collaboration and Communication</h2>
+    <ul>
+      <li>A Team of Heroes</li>
+      <li>... and A Team of Ordinary Men</li>
+      <li>Together we are Mighty</li>
+      <li>... Divided we are less than ordinary </li>
+      <br>
+      <li>Avoiding "Us" versus "Them"</li>
+    </ul>
+        </section>
+  <section>
+    <h2>Today's Heroes</h2>
+    <q>
+    Those who display courage or self-sacrifice for the greater good
+    </q>
+    <p align=right> -- Wikipedia</p>
+  </section>
+        <section>
+          <h2>Courage</h2>
+          <ul>
+            <li>Follow the Plan (even amidst disagreement)</li>
+            <li>Disagree with grace and optimism</li>
+            <li>Recognize that "Rejection" is not a Personal Attack</li>
+      <li>See the Vision, Promote the Vision</li>
+          </ul>
+        </section>
+        <section>
+          <h2>The Plan</h2>
+    <ul>
+      <li>https://en.opensuse.org/Portal:Packaging </li>
+      <li>https://en.opensuse.org/openSUSE:Packaging_guidelines</li>
+      <li>It's a WIKI !</li>
+      <li>ML : <a href="http://lists.opensuse.org/opensuse-packaging/">opensuse-packaging@opensuse.org</a></li>
+      <li>Talk, exchange ideas, ask questions</li>
+    </ul>
+        </section>
+        <section>
+          <h2>Most Common Challenges</h2>
+    <ul>
+      <p>Dimstar says: "It's not all that bad."</p>
+      <li>New packagers, or new to openSUSE </li>
+      <li>Not following the Packaging Guidelines </li>
+      <li>Communication (not technical issues) </li>
+    </ul>
+        </section>
+  <section>
+    <h2>Most Time Consuming Tasks</h2>
+    <ul>
+      <li>Communication</li>
+      <li>HUGE changes</li>
+      <ul><li>Smaller chunks are easier</li></ul>
+      <li>Complex dependencies</li>
+      <ul><li>Not always possible to simplify</li></ul>
+    </ul>
+  </section>
+  <section>
+    <h2>What's Working Well</h2>
+    <ul>
+      <li>You!</li>
+      <li>We need to find ways to look beyond the "negative"</li>
+      <li>Improve the Feedback mechanisms</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Collaboration</h2>
+    <ul>
+      <li>Takes Time</li>
+      <li>Takes Discipline </li>
+      <li>Takes Responsibility </li>
+      <li>Yields great rewards, greater than the investment</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Patch Policy</h2>
+    <ul>
+      <li>Build from Pristine Sources</li>
+      <li>Document patches in changelog</li>
+      <li>Source Patches are meaningful on several levels</li>
+      <li>Reconcile upstream policies</li>
+      <li>PLEASE see: <a href="https://en.opensuse.org/openSUSE:Packaging_Patches_guidelines">Packaging Patches Guidelines</a></li>
+    </ul>
+  </section>
+        <section>
+          <h2>Hallmarks of Excellence</h2>
+    <h3>Badges of Heroism</h3>
+    <ul>
+      <li>Open Build Service : the envy of the industry </li>
+      <li>Dimstar says (regarding Tumbleweed) </li>
+      <ul><li>Smooth efficiency during the week</li>
+        <li>3 ISO releases</li>
+        <li>1 kerenel</li>
+        <li>146 package changes</li>
+      </ul>
+      <p></p>
+      <li>Calm, quiet, persistent progress</li>
+    </ul>
+          </section>
+        </section>
+        <section>
+          <h1>Q &amp; A</h1>
+          <p>You have a question later? <a href="mailto:opensuse-packaging@opensuse.org">Use our packaging mailinglist</a></p>
         </section>
         <section>
           <h1>Thank you for flying with openSUSE</h1>
