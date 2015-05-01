@@ -225,8 +225,8 @@ WantedBy=multi-user.target</code></pre>
 # Should-Stop:       ypbind smtp
 # Default-Start:     3 5
 # Default-Stop:      0 1 2 6
-# Short-Description: redis XYZ daemon providing ZYX
-# Description:       Start redis to allow XY and provide YZ
+# Short-Description: redis key value store
+# Description:       redis a key value store with data types
 ### END INIT INFO
 REDIS_BIN=/usr/sbin/redis-server
 test -x $REDIS_BIN || { echo "$REDIS_BIN not installed";
