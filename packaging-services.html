@@ -136,6 +136,7 @@ ln -sf %{_sbindir}/service %{buildroot}%{_sbindir}/rc%{name}
 install -D -m 0755 utils/redis_init_script \
   %{buildroot}%{_sysconfdir}/init.d/redis
 ln -sf %{_sysconfdir}/init.d/%{name} %{buildroot}%{_sbindir}/rc%{name}
+install -dD %{buildroot}%{_var}/run/redis/
 %endif</code></pre>
         </section>
         <section>
@@ -156,8 +157,7 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
         </section>
         <section>
          <h4>Code drop - scripts part 2</h4>
-<pre><code data-trim contenteditable>
-%preun
+<pre><code data-trim contenteditable>%preun
 %if %{with systemd}
 %service_del_preun %{name}.service
 %else
@@ -173,8 +173,23 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
 %endif</code></pre>
         </section>
         <section>
+          <h4>Code drop - files</h4>
+<pre><code data-trim contenteditable>%files
+[snip]
+%{_sbindir}/rc%{name}
+%if %{with systemd}
+/usr/lib/tmpfiles.d/%{name}.conf
+%{_unitdir}/%{name}.service
+%else
+/init.d/%{name}
+%dir %attr(750,redis,redis) %{_var}/run/redis/
+%endif</code></pre>
+        </section>
+        <section>
           <h4>Code drops - explained</h4>
-        
+          <ul>
+            <li></li>
+          </ul>
         </section>
         <section>
           <h3>Services - Take away #1</h3>
