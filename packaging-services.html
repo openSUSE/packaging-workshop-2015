@@ -175,7 +175,7 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
         <section>
           <h4>Code drop - files</h4>
 <pre><code data-trim contenteditable>%files
-[snip]
+%defattr(-,root,root)
 %{_sbindir}/rc%{name}
 %if %{with systemd}
 /usr/lib/tmpfiles.d/%{name}.conf
@@ -186,17 +186,109 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
 %endif</code></pre>
         </section>
         <section>
-          <h4>Code drops - explained</h4>
-          <ul>
-            <li></li>
-          </ul>
-        </section>
-        <section>
           <h3>Services - Take away #1</h3>
           <ul>
+            <li>we use bcond_with(out) to get a "speaking" conditional</li>
+            <li>Directories in /run or /var/run are handled using systemd-tmpfiles</li>
+            <li>With sysvinit create them in the init script or have them as part of the package</li>
             <li>It is relatively easy to support both init systems.</li>
             <li>Use the macros that the distro provide for you.</li>
           </ul>
+        </section>
+        <section>
+          <h2>How about some actual init scripts?</h2>
+        </section>
+        <section>
+          <h4>Systemd unit file</h4>
+<pre><code data-trim contenteditable>[Unit]
+Description=Redis
+After=network.target
+
+[Service]
+Type=simple
+User=redis
+Group=redis
+PIDFile=/var/run/redis/redis.pid
+ExecStart=/usr/sbin/redis-server /etc/redis/redis.conf
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+        </section>
+        <section>
+          <h4>sysvinit</h4>
+<pre><code data-trim contenteditable>#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          redis
+# Required-Start:    $syslog $remote_fs
+# Should-Start:      $time ypbind smtp
+# Required-Stop:     $syslog $remote_fs
+# Should-Stop:       ypbind smtp
+# Default-Start:     3 5
+# Default-Stop:      0 1 2 6
+# Short-Description: redis XYZ daemon providing ZYX
+# Description:       Start redis to allow XY and provide YZ
+### END INIT INFO
+REDIS_BIN=/usr/sbin/redis-server
+test -x $REDIS_BIN || { echo "$REDIS_BIN not installed";
+        if [ "$1" = "stop" ]; then exit 0;
+        else exit 5; fi; }
+. /etc/rc.status
+
+rc_reset
+
+case "$1" in
+    start)
+        echo -n "Starting redis "
+        /sbin/startproc -u redis -g redis $REDIS_BIN /etc/redis/redis.conf
+        rc_status -v
+        ;;
+    stop)
+        echo -n "Shutting down redis "
+        /sbin/killproc $REDIS_BIN
+        rc_status -v
+        ;;
+    try-restart|condrestart)
+        if test "$1" = "condrestart"; then
+                echo "${attn} Use try-restart ${done}(LSB)${attn} rather than condrestart ${warn}(RH)${norm}"
+        fi
+        $0 status
+        if test $? = 0; then
+                $0 restart
+        else
+                rc_reset        # Not running is not a failure.
+        fi
+        rc_status
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        rc_status
+        ;;
+    force-reload)
+        echo -n "Reload service redis "
+        /sbin/killproc -HUP $REDIS_BIN
+        rc_status -v
+        ;;
+    reload)
+        echo -n "Reload service redis "
+        /sbin/killproc -HUP $REDIS_BIN
+        rc_status -v
+        ;;
+    status)
+        echo -n "Checking for service redis "
+        /sbin/checkproc $REDIS_BIN
+        rc_status -v
+        ;;
+    probe)
+        test /etc/redis/redis.conf -nt /var/run/redis.pid &amp;&amp; echo reload
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+        exit 1
+        ;;
+esac
+rc_exit
+</code></pre>
         </section>
         <section>
           <h1>Q &amp; A</h1>
