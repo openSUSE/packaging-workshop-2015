@@ -239,7 +239,8 @@ rc_reset
 case "$1" in
     start)
         echo -n "Starting redis "
-        /sbin/startproc -u redis -g redis $REDIS_BIN /etc/redis/redis.conf
+        /sbin/startproc -u redis -g redis \
+           $REDIS_BIN /etc/redis/redis.conf
         rc_status -v
         ;;
     stop)
@@ -280,7 +281,8 @@ case "$1" in
         rc_status -v
         ;;
     probe)
-        test /etc/redis/redis.conf -nt /var/run/redis.pid &amp;&amp; echo reload
+        test /etc/redis/redis.conf \
+          -nt /var/run/redis.pid &amp;&amp; echo reload
         ;;
     *)
         echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
