@@ -73,11 +73,42 @@
         <section>
           <h4>First line of defense - File system permissions</h4>
           <p>Disclaimer: those recommendations might be a bit biased to "more secure"</p>
+          <h5>services</h5>
           <ul>
-            <li>config files:</li>
+            <li>config files: directories 750,root,$servicegroup, files 640,root,$servicegroup</li>
+            <li>data files (usually in /var or /srv): directories 750,serviceuser,$servicegroup, files 640,$serviceuser,$servicegroup</li>
+            <li>binaries: -,root,root</li>
           </ul>
         </section>
         <section>
+          <h4>First line of defense - File system permissions</h4>
+          <h5>Normal programs</h5>
+          <ul>
+            <li>normally configs and binaries are world readable</li>
+            <li>Not wanted? create a group for that program. Make things only readable/writeable to that group. Example: video group</li>
+          </ul>
+        </section>
+        <section>
+          <h4>Second line of defense - Runtime permissions</h4>
+          <p>Or does that programm really needs root permissions</p>
+          <ul>
+            <li>Case by Case decision - but usually the answer is no.</li>
+            <li>service user/group</li>
+          </ul>
+        </section>
+        <section>
+        <h4>Are we there yet? - Hah no!</h4>
+        <ul>
+          <li>We really can do more - Apparmor/SELinux come to mind</li>
+          <li>Both require a good understanding of your program.</li>
+          <li>Give you really good control about what a program can do or can not do anymore.</li>
+          <li>systemd units: SystemCallFilter=</li>
+        </ul>
+        </section>
+        <section>
+          <h4>But but my program really needs suid or ...</h4>
+          <p>... this dbus service or be started by default</p>
+          <p>Open an audit bug and assign it to the security-team</p>
         </section>
         <section>
           <h1>Q &amp; A</h1>
