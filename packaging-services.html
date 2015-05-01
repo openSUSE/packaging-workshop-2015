@@ -145,7 +145,7 @@ ln -sf %{_sysconfdir}/init.d/%{name} %{buildroot}%{_sbindir}/rc%{name}
 /usr/sbin/useradd -g %{name} -s /bin/false -r \
   -c "Redis" -d %{_data_dir} %{name} >/dev/null 2>&amp;1 || :
 %if %{with systemd}
-%service_add_pre %{name}.target
+%service_add_pre %{name}.service
 %endif
 
 %post
@@ -159,14 +159,14 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
 <pre><code data-trim contenteditable>
 %preun
 %if %{with systemd}
-%service_del_preun %{name}.target
+%service_del_preun %{name}.service
 %else
 %stop_on_removal %{name}
 %endif
 
 %postun
 %if %{with systemd}
-%service_del_postun %{name}.target
+%service_del_postun %{name}.service
 %else
 %restart_on_update %{name}
 %insserv_cleanup
