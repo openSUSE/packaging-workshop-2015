@@ -232,6 +232,17 @@ REDIS_BIN=/usr/sbin/redis-server
 test -x $REDIS_BIN || { echo "$REDIS_BIN not installed";
         if [ "$1" = "stop" ]; then exit 0;
         else exit 5; fi; }
+
+
+# Check for existence of needed config file and read it
+# REDIS_CONFIG=/etc/sysconfig/redis
+# test -r $REDIS_CONFIG || { echo "$REDIS_CONFIG not existing";
+#        if [ "$1" = "stop" ]; then exit 0;
+#        else exit 6; fi; }
+
+# Read config
+#. $REDIS_CONFIG
+
 . /etc/rc.status
 
 rc_reset
