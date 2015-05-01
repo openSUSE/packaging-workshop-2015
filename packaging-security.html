@@ -76,7 +76,11 @@
           <h5>services</h5>
           <ul>
             <li>config files: directories 750,root,$servicegroup, files 640,root,$servicegroup</li>
-            <li>data files (usually in /var or /srv): directories 750,serviceuser,$servicegroup, files 640,$serviceuser,$servicegroup</li>
+            <li>data files (usually in /var or /srv): directories 750,serviceuser,$servicegroup, files 640,$serviceuser,$servicegroup
+              <ul>
+                <li>This does not mean your webserver should be able to write to your webapp folder in /srv/www/...</li>
+                <li>Yes often the docs of the webapp will mention such silly setups. (worst case is when the docs say "chmod 777")</li>
+              </ul>
             <li>binaries: -,root,root</li>
           </ul>
         </section>
