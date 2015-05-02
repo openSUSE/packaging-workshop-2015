@@ -56,8 +56,7 @@ zypper in quilt spec-cleaner
 # if you want to follow the code examples
 osc co home:darix:pw2015
 # need an account?
-xdg-open https://bit.ly/opensuse_create_account
-</code></pre>
+xdg-open https://bit.ly/opensuse_create_account</code></pre>
         </section>
         <section>
           <h2>Packaging for Champions</h2>
@@ -224,23 +223,21 @@ xdg-open https://bit.ly/opensuse_create_account
           </section>
           <section>
             <h2>Lets create some new package!</h2>
-    <pre><code data-trim>cd somewhere-on-the-disk-where-i-want-to-store-obs-content
-    $ osc checkout home:&lt;username&gt;
-    $ cd home:&lt;username&gt;
-    $ mkdir mypackage
-    $ cp various-things mypackage/
-    $ osc add mypackage
-    $ osc commit
-    $ osc results
-    </code></pre>
+<pre><code data-trim>cd somewhere-on-the-disk-where-i-want-to-store-obs-content
+$ osc checkout home:&lt;username&gt;
+$ cd home:&lt;username&gt;
+$ mkdir mypackage
+$ cp various-things mypackage/
+$ osc add mypackage
+$ osc commit
+$ osc results</code></pre>
           </section>
           <section>
             <h2>But I wanted to build the package on my machine :-(</h2>
             <p>Fear not. We can do that too!</p>
-    <pre><code data-trim>$ cd my-package-directory
-    $ osc build
-    # wait wait wait
-    </code></pre>
+<pre><code data-trim>$ cd my-package-directory
+$ osc build
+# wait wait wait</code></pre>
           </section>
           <section>
             <h2>Lovely, I have package.</h2>
@@ -254,42 +251,39 @@ xdg-open https://bit.ly/opensuse_create_account
             <li>Find suitable devel project</li>
             <li>Submit package from devel project to factory</li>
             </ul>
-    <pre><code data-trim>$ osc sr home:&lt;username&gt; mypackage mydevelproject -m "My new cool package"
-    # wait wait wait
-    $ osc sr mydevelproject mypackage openSUSE:Factory
-    </code></pre>
+<pre><code data-trim>$ osc sr home:&lt;username&gt; mypackage mydevelproject -m "My new cool package"
+# wait wait wait
+$ osc sr mydevelproject mypackage openSUSE:Factory</code></pre>
           </section>
           <section>
             <h2>How about doing an update for existing package?</h2>
           </section>
           <section>
-    <pre><code data-trim>$ osc develproject openSUSE:Factory rsnapshot
-    Archiving
-    $ osc branch Archiving rsnapshot
-    A working copy of the branched package can be checked out with:
-    osc co home:scarabeus_iv:branches:Archiving/rsnapshot
-    $ osc co home:scarabeus_iv:branches:Archiving/rsnapshot
-    $ cd home:scarabeus_iv:branches:Archiving/rsnapshot
-    $ vi rsnapshot.spec # hackyhacky
-    $ osc vc
-    $ osc build
-    # wait wait wait
-    $ osc ci
-    $ osc results
-    $ osc sr -m "Got around to fix bnc#2345 so enjoy"
-    </code></pre>
+<pre><code data-trim>$ osc develproject openSUSE:Factory rsnapshot
+Archiving
+$ osc branch Archiving rsnapshot
+A working copy of the branched package can be checked out with:
+osc co home:scarabeus_iv:branches:Archiving/rsnapshot
+$ osc co home:scarabeus_iv:branches:Archiving/rsnapshot
+$ cd home:scarabeus_iv:branches:Archiving/rsnapshot
+$ vi rsnapshot.spec # hackyhacky
+$ osc vc
+$ osc build
+# wait wait wait
+$ osc ci
+$ osc results
+$ osc sr -m "Got around to fix bnc#2345 so enjoy"</code></pre>
           </section>
           <section>
               <h2>Patches and ChangeLog</h2>
-    <pre><code data-trim> - Version bump to 4.4.4 bnc#123456
-     * Feature 1
-     * Fix 12
-       + long waited bugfix for feature XYZ
-    - fix segfault on load incorrect document (bnc#123456)
-     * foo-1.2.4-buffer-owerflow.patch
-    - remove obsolete patch:
-     * foo-1.2.3-buildfix.patch
-    </code></pre>
+<pre><code data-trim> - Version bump to 4.4.4 bnc#123456
+ * Feature 1
+ * Fix 12
+   + long waited bugfix for feature XYZ
+- fix segfault on load incorrect document (bnc#123456)
+ * foo-1.2.4-buffer-owerflow.patch
+- remove obsolete patch:
+ * foo-1.2.3-buildfix.patch</code></pre>
           </section>
           <section>
             <h2>Maintenance updates are not hard either</h2>
@@ -311,22 +305,20 @@ xdg-open https://bit.ly/opensuse_create_account
             </ul>
           </section>
           <section>
-    <pre><code data-trim>$ osc maintained rsnapshot
-    openSUSE:13.1:Update/rsnapshot
-    openSUSE:13.2:Update/rsnapshot
-    $ osc mbranch rsnapshot
-    $ osc co home:scarabeus_iv:branches:OBS_Maintained:rsnapshot
-    $ vi rsnapshot.openSUSE_12.3_Update/rsnapshot.spec
-    $ vi rsnapshot.openSUSE_13.1_Update/rsnapshot.spec
-    $ osc vc -m "I did fancy maintenance changes, I am great bnc#something"
-    $ osc ci
-    $ osc mr -m "Maintenance update wrt bnc#something"
-    </code></pre>
+<pre><code data-trim>$ osc maintained rsnapshot
+openSUSE:13.1:Update/rsnapshot
+openSUSE:13.2:Update/rsnapshot
+$ osc mbranch rsnapshot
+$ osc co home:scarabeus_iv:branches:OBS_Maintained:rsnapshot
+$ vi rsnapshot.openSUSE_12.3_Update/rsnapshot.spec
+$ vi rsnapshot.openSUSE_13.1_Update/rsnapshot.spec
+$ osc vc -m "I did fancy maintenance changes, I am great bnc#something"
+$ osc ci
+$ osc mr -m "Maintenance update wrt bnc#something"</code></pre>
           </section>
           <section>
            <h3>Sending latest version is bit easier</h3>
-    <pre><code data-trim>$ osc sr my:devel:project package openSUSE:13.2:Update
-    </code></pre>
+<pre><code data-trim>$ osc sr my:devel:project package openSUSE:13.2:Update</code></pre>
           </section>
           <section>
             <h1>Q &amp; A</h1>
@@ -372,8 +364,7 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
 
 %files
 %defattr(-,root,root)
-%doc ChangeLog README COPYING
-</code></pre>
+%doc ChangeLog README COPYING</code></pre>
         </section>
         <section>
         <h2>Header section content dissection</h2>
@@ -427,8 +418,7 @@ BuildRequires: pkgconfig(X11) => 0.9
 BuildRequires: python-imaging
 Requires(post): update-alternatives
 Requires: python-imaging
-%requires_eq perl
-</code></pre>
+%requires_eq perl</code></pre>
         </section>
         <section>
         <h3>Provides/Obsoletes/Conflicts</h3>
@@ -451,8 +441,7 @@ Requires: python-imaging
 <pre><code data-trim>Conflicts: libwriterperfect
 Provides: liboldpackage = %{version}
 Obsoletes: liboldpackage < %{version}
-Provides: alternativepackage = %{version}
-</code></pre>
+Provides: alternativepackage = %{version}</code></pre>
         </section>
         <section>
         <h3>Scriptlets</h3>
@@ -470,10 +459,9 @@ Provides: alternativepackage = %{version}
         <section>
         <h3>Example</h3>
 <pre><code data-trim>Requires(pre): update-aternatives
-%pre
+%post
 update-alternatives --install %{_javadir}/el_api.jar el_api \
-  %{_javadir}/%{name}-el-%{elspec}-api.jar 2030
-</code></pre>
+  %{_javadir}/%{name}-el-%{elspec}-api.jar 2030</code></pre>
         </section>
         <section>
         <h3>Subpackages</h3>
@@ -488,8 +476,7 @@ Summary: python bindings for bla
 Group:   some/group
 
 %description python
-The long awaited python bindings providing a, b, and c for bla
-</code></pre>
+The long awaited python bindings providing a, b, and c for bla</code></pre>
         </section>
         <section>
         <h3>Libraries</h3>
@@ -514,8 +501,7 @@ Shared library to operate with bla
 %postun -n libbla1 -p /sbin/ldconfig
 
 %files -n libbla1
-%{_libdir}/libbla1.so.*
-</code></pre>
+%{_libdir}/libbla1.so.*</code></pre>
           </section>
         </section>
         <section>
@@ -532,8 +518,7 @@ Shared library to operate with bla
 do stuff
 %else
 do other stuff
-%endif
-</code></pre>
+%endif</code></pre>
         </section>
         <section>
           <h3>Let's cast</h3>
@@ -828,8 +813,7 @@ case "$1" in
         exit 1
         ;;
 esac
-rc_exit
-</code></pre>
+rc_exit</code></pre>
         </section>
         <section>
           <h4>Services - Take away #2</h4>
