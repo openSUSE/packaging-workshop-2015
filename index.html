@@ -639,7 +639,7 @@ PreReq:        %{insserv_prereq} %{fillup_prereq}
          <h4>Code drop - %install</h4>
 <pre><code data-trim>%if %{with systemd}
 install -D -m 0644 %{S:2} \
-  %{buildroot}%{_unitdir}/redis.service
+  %{buildroot}%{_unitdir}/%{name}.service
 install -D -m 0644 %{S:3} \
   %{buildroot}/usr/lib/tmpfiles.d/%{name}.conf
 ln -sf %{_sbindir}/service %{buildroot}%{_sbindir}/rc%{name}
@@ -693,7 +693,7 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
 %{_unitdir}/%{name}.service
 %else
 /init.d/%{name}
-%dir %attr(750,redis,redis) %{_var}/run/redis/
+%dir %attr(750,%{name},%{name}) %{_var}/run/redis/
 %endif</code></pre>
         </section>
         <section>
