@@ -761,7 +761,7 @@ rc_reset
 case "$1" in
     start)
         if [ ! -d /var/run/redis ] ; then
-          install -o redis -g redis -m 0750 \
+          install -d -o redis -g redis -m 0750 \
             /var/run/redis
         fi
         echo -n "Starting redis "
