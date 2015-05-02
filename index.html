@@ -102,7 +102,7 @@ xdg-open https://bit.ly/opensuse_create_account</code></pre>
           <ul>
             <li>S.u.S.E. user since 5.1</li>
             <li>With SuSE since 2005</li>
-            <li>Packaging since about 11years</li>
+            <li>Packaging since about 11 years</li>
             <li>Doing package reviews at SUSE and packager support for almost my whole time there</li>
           </ul>
         </section>
@@ -112,7 +112,7 @@ xdg-open https://bit.ly/opensuse_create_account</code></pre>
             <li>SUSE Employee since 2011</li>
             <li>Lead of Packagers team in SUSE</li>
             <li>Handle Libreoffice and Java related stuff in openSUSE</li>
-            <li>Gentoo developer working on varous things there</li>
+            <li>Gentoo developer working on various things there</li>
           </ul>
         </section>
         <section>
@@ -206,7 +206,7 @@ xdg-open https://bit.ly/opensuse_create_account</code></pre>
             <ul>
               <li>Own home project <b><code>home:&lt;username&gt;</code></b></li>
               <li>Access to branching/maintenance requests</li>
-              <li>cli interface and possiblity to build things localy</li>
+              <li>cli interface and possibility to build things locally</li>
               <li>account for bugzilla.opensuse.org</li>
               <li>and many many things more...</li>
             </ul>
@@ -297,7 +297,7 @@ $ osc sr -m "Got around to fix bnc#2345 so enjoy"</code></pre>
           <section>
             <h3>With maintenance you have multiple choices:</h3>
             <ul>
-              <li>Backport fixes to one product (ie. openSUSE-13.2)</li>
+              <li>Backport fixes to one product (i.e. openSUSE-13.2)</li>
               <li>Backport fixes to all supported products (currently 13.1 and 13.2)</li>
               <li>Update all products with latest version of the package</li>
             </ul>
@@ -380,7 +380,7 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
             <h3>BuildRequires</h3>
             <ul>
               <li>Should contain what your package needs for build</li>
-              <li>Prefferably it should be version limited (based ie on configure.ac)</li>
+              <li>Preferably it should be version limited (based i.e. on configure.ac)</li>
               <li>If something is amiss here the package should not build</li>
             </ul>
           </section>
@@ -389,7 +389,7 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
             <ul>
               <li>Used for Run-time dependencies</li>
               <li>Automatically populated for shared libraries</li>
-              <li>Basically all your application needs to run ough to be there</li>
+              <li>Basically all your application needs to run ought to be there</li>
               <li>If wrong one will notice when using the application -&gt; tricky and be careful</li>
             </ul>
           </section>
@@ -456,7 +456,7 @@ Provides: alternativepackage = %{version}</code></pre>
           </section>
           <section>
             <h3>Example</h3>
-<pre><code data-trim>Requires(pre): update-aternatives
+<pre><code data-trim>Requires(pre): update-alternatives
 %post
 update-alternatives --install %{_javadir}/el_api.jar el_api \
   %{_javadir}/%{name}-el-%{elspec}-api.jar 2030</code></pre>
@@ -571,7 +571,7 @@ do other stuff
             </ul>
           </section>
           <section>
-            <h4>Dont know it yet?</h4>
+            <h4>Don't know it yet?</h4>
             <ul>
               <li>You are probably not the first to package this. Check what other distros do. Do not diverge unnecessarily!</li>
               <li>You are really the first to package it? Then ...</li>
@@ -894,7 +894,7 @@ WantedBy=multi-user.target redis.target</code></pre>
             <h5>services</h5>
             <ul>
               <li>config files: directories 750,root,$servicegroup, files 640,root,$servicegroup</li>
-              <li>data files (usually in /var or /srv): directories 750,serviceuser,$servicegroup, files 640,$serviceuser,$servicegroup
+              <li>data files (usually in /var or /srv): directories 750,$serviceuser,$servicegroup, files 640,$serviceuser,$servicegroup
                 <ul>
                   <li>This does not mean your webserver should be able to write to your webapp folder in /srv/www/...</li>
                   <li>Yes often the docs of the webapp will mention such silly setups. (worst case is when the docs say "chmod 777")</li>
@@ -913,7 +913,7 @@ WantedBy=multi-user.target redis.target</code></pre>
           </section>
           <section>
             <h4>Second line of defense - Runtime permissions</h4>
-            <p>Or does that programm really needs root permissions</p>
+            <p>Or does that program really needs root permissions</p>
             <ul>
               <li>Case by Case decision - but usually the answer is no.</li>
               <li>service user/group</li>
