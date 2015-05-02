@@ -644,10 +644,10 @@ install -D -m 0644 %{S:3} \
   %{buildroot}/usr/lib/tmpfiles.d/%{name}.conf
 ln -sf %{_sbindir}/service %{buildroot}%{_sbindir}/rc%{name}
 %else
-install -D -m 0755 utils/redis_init_script \
-  %{buildroot}%{_sysconfdir}/init.d/redis
+install -D -m 0755 %{S:4} \
+  %{buildroot}%{_sysconfdir}/init.d/%{name}
 ln -sf %{_sysconfdir}/init.d/%{name} %{buildroot}%{_sbindir}/rc%{name}
-install -dD %{buildroot}%{_var}/run/redis/
+install -dD %{buildroot}%{_var}/run/%{name}/
 %endif</code></pre>
         </section>
         <section>
