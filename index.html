@@ -691,7 +691,7 @@ systemd-tmpfiles --create /usr/lib/tmpfiles.d/%{name}.conf || true
 /usr/lib/tmpfiles.d/%{name}.conf
 %{_unitdir}/%{name}.service
 %else
-/init.d/%{name}
+/etc/init.d/%{name}
 %dir %attr(750,%{name},%{name}) %{_var}/run/redis/
 %endif</code></pre>
           </section>
