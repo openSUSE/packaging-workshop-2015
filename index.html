@@ -52,6 +52,9 @@ zypper in --from openSUSE_Tools osc build
 zypper in quilt spec-cleaner
 # if you want to follow the code examples
 osc co home:darix:pw2015
+# oder
+osc bco home:darix:pw2015/mosquitto
+osc -A api.suse.de bco openSUSE.org:home:darix:pw2015/mosquitto
 # need an account?
 xdg-open https://bit.ly/opensuse_create_account</code></pre>
         </section>
@@ -499,7 +502,7 @@ Shared library to operate with bla
 %postun -n libbla1 -p /sbin/ldconfig
 
 %files -n libbla1
-%{_libdir}/libbla1.so.*</code></pre>
+%{_libdir}/libbla.so.*</code></pre>
           </section>
         </section>
         <section>
