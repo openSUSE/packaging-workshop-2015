@@ -46,15 +46,9 @@
 <pre><code># open slides
 xdg-open https://presentations.nordisch.org/pw2015/#/
 # adapt for your installed distribution
-zypper ar http://download.opensuse.org/repositories/openSUSE:/Tools/openSUSE_13.2/openSUSE:Tools.repo
-zypper ref
-zypper in --from openSUSE_Tools osc build
-zypper in quilt spec-cleaner
+zypper in osc build quilt spec-cleaner
 # if you want to follow the code examples
-osc co home:darix:pw2015
-# oder
 osc bco home:darix:pw2015/mosquitto
-osc -A api.suse.de bco openSUSE.org:home:darix:pw2015/mosquitto
 # need an account?
 xdg-open https://bit.ly/opensuse_create_account</code></pre>
         </section>
@@ -415,7 +409,7 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
             <h3>Example</h3>
 <pre><code data-trim>BuildRequires: libvisio-devel &gt;= 1.2.3
 BuildRequires: cmake(GLEW) &lt; 2.0
-BuildRequires: pkgconfig(X11) =&gt; 0.9
+BuildRequires: pkgconfig(X11) &gt;= 0.9
 BuildRequires: python-imaging
 Requires(post): update-alternatives
 Requires: python-imaging
@@ -459,7 +453,7 @@ Provides: alternativepackage = %{version}</code></pre>
           </section>
           <section>
             <h3>Example</h3>
-<pre><code data-trim>Requires(pre): update-alternatives
+<pre><code data-trim>Requires(post): update-alternatives
 %post
 update-alternatives --install %{_javadir}/el_api.jar el_api \
   %{_javadir}/%{name}-el-%{elspec}-api.jar 2030</code></pre>
